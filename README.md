@@ -31,12 +31,16 @@ const container = roanco.create(spec)
 container.el('header').innerHTML = 'header'
 container.el('body').innerHTML = 'body'
 container.el('footer').innerHTML = 'footer'
-container.el('navs.nav1').innerHTML = 'nav1'
-container.el('navs.nav2').innerHTML = 'nav2'
+container.el('navs.nav1').innerHTML = 'nav 1'
+container.el('navs.nav2').innerHTML = 'nav 2'
+
+// other styling here ...
 
 // display the elements
 document.getElementById('container').appendChild(container.el())
 ```
+
+![result of running example code](test/fixtures/prototype/screen-cap.png)
 
 install
 ================================================================================
