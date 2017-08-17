@@ -1,0 +1,55 @@
+/* main layout */
+
+* {
+  box-sizing: border-box;
+  white-space: nowrap;
+  text-align: center;
+}
+
+html, body {
+  position: fixed;
+  height: 100%;
+  width:  100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-size: 150%;
+}
+
+/* utilities */
+
+.flex-l-r {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-t-b {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-grow   { flex-grow: 1; }
+.flex-grow-1 { flex-grow: 1; }
+.flex-grow-2 { flex-grow: 2; }
+.flex-grow-3 { flex-grow: 3; }
+.flex-grow-4 { flex-grow: 4; }
+
+.full-height {
+  height: 100%
+}
+
+.content div {
+  padding: 0.25em 1em;
+}
+
+.border-bottom { border-bottom: thin solid black; }
+.border-left   { border-left:   thin solid black; }
+
+.color-a { background-color: #FEE; }
+.color-b { background-color: #EFE; }
+.color-c { background-color: #EEF; }
+.color-d { background-color: #FFE; }
+.color-e { background-color: #EFF; }
+.color-f { background-color: #FEF; }
