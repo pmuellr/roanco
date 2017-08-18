@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>roanco/test/manual/browser</title>
+</head>
+
+<body id='body'>
+  <script src="roanco-standalone.js"></script>
+  <script>
+    const spec = `
+      col main -> head navs:1 body:2 foot
+      row navs -> nav1:1 nav2:1
+    `
+    const tree = roanco.create(spec)
+
+    tree.el('main/head').innerHTML = '<div class="content">head</div>'
+    tree.el('main/navs/nav1').innerHTML = '<div class="content">nav1</div>'
+    tree.el('main/navs/nav2').innerHTML = '<div class="content">nav2</div>'
+    tree.el('main/foot').innerHTML = '<div class="content">foot</div>'
+    tree.el('main/body').innerHTML = `<div class="content">
+      body
+      <div class="align-left">
+        <p>built with the following spec:</p>
+        <pre id="spec"></pre>
+      </div>
+    </div>`
+
+    document.getElementById('body').appendChild(tree.el('main'))
+    document.getElementById('spec').innerText = spec
+
+    console.log('tree:', tree)
+    console.log('flexMap:', tree.flexMap)
+    console.log('spec:', tree.spec)
+  </script>
+
+  <style>
+    .roanco-main {
+      height: 100%;
+      width: 100%;
+      background-color: #CCC;
+    }
+
+    .roanco-head { background-color: #FEE; }
+    .roanco-body { background-color: #EEF; }
+    .roanco-foot { background-color: #FFE; }
+    .roanco-nav1 { background-color: #EFF; }
+    .roanco-nav2 { background-color: #FEF; }
+
+    .roanco-divider-hor { height: 1px; }
+    .roanco-divider-ver { width:  1px; }
+    .roanco-divider     { background-color: #777; }
+
+    .roanco-sizer-hor:hover { cursor: ns-resize; }
+    .roanco-sizer-ver:hover { cursor: ew-resize; }
+
+    .roanco-sizer-hor   {
+      height: 8px;
+      margin: 0 3px 0 3px;
+    }
+
+    .roanco-sizer-ver   {
+      width:  8px;
+      margin: 3px 0 3px 0;
+    }
+
+    .roanco-sizer       {
+      background-color: #AAA;
+      border: thin solid black;
+      border-radius: 10px;
+    }
+
+    .align-left, .align-left * {
+      text-align: left;
+    }
+
+    div.content {
+      padding: 0.25em 1em;
+      font-size: 150%;
+      text-align: center;
+    }
+
+    * {
+      box-sizing: border-box;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    html, body {
+      position: fixed;
+      height: 100%;
+      width:  100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</body>
+</html>

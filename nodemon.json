@@ -1,6 +1,8 @@
 {
   "ext": "js,json",
   "ignore": [
-    "tmp/"
+    "tmp/",
+    "docs/",
+    "roanco-standalone.js"
   ]
 }

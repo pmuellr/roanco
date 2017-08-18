@@ -14,20 +14,23 @@
     "url": "https://github.com/pmuellr/roanco/issues"
   },
   "scripts": {
-    "standard": "echo 'running standard' && standard -v",
-    "test": "npm -s run standard && npm -s run utest",
-    "utest": "node test/index.js | FORCE_COLOR=1 tap-spec",
-    "watch": "nodemon --exec 'npm -s test'"
+    "build": "make build",
+    "standard": "make standard",
+    "test": "make test",
+    "watch": "nodemon --exec 'make build || true'"
   },
   "standard": {
     "ignore": [
       "/tmp/",
-      "/node_modules/"
+      "/docs/",
+      "/node_modules/",
+      "/roanco-standalone.js"
     ]
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
+    "browserify": "~14.4.0",
+    "cat-source-map": "~0.1.2",
     "nodemon": "~1.11.0",
     "standard": "~10.0.3",
     "tap-spec": "~4.1.1",

@@ -5,36 +5,71 @@ const pkg = require('./package.json')
 exports.version = pkg.version
 exports.create = create
 
-const document = typeof window !== 'undefined' ? window.document : null
+const specParser = require('./lib/spec-parser')
+const elementBuilder = require('./lib/element-builder')
 
-function create (spec) {
-  return new Roanco(spec)
+// given a spec and options, return a Roanco object
+function create (spec, opts) {
+  const result = specParser.parse(spec, opts)
+  if (result.err) throw new Error(result.err)
+
+  return new Roanco(spec, result.tree, opts)
 }
 
+// class of object returned from the create() api
 class Roanco {
-  constructor (spec, opts) {
-    if (typeof spec !== 'object') throw new Error('expecting a spec argument')
-
-    this._els = new Map()
+  constructor (spec, tree, opts) {
     this._spec = spec
-    this._opts = opts
+    this._tree = tree
+    this._opts = opts || {}
 
-    if (build(this) == null) return null
+    elementBuilder.build(this._tree, this._opts)
+
+    this._paths = new Map()
+    buildPaths(this._paths, this._tree, [])
   }
 
+  // given a path, return the element in the tree
   el (path) {
-    return this._els.get(path)
+    const node = this._paths.get(path)
+    if (node == null) return null
+
+    return node.el
+  }
+
+  // return the paths to all the nodes in the tree
+  get paths () {
+    return Array.from(this._paths.keys())
+  }
+
+  // return the current mapping of element paths -> flex values
+  get flexMap () {
+    const result = {}
+
+    for (let path of this.paths) {
+      const node = this._paths.get(path)
+      if (node.flex == null) continue
+
+      result[path] = node.flex
+    }
+
+    return result
+  }
+
+  // return a spec for the current object
+  get spec () {
+    return this._spec
   }
 }
 
-function build (roanco) {
-  const spec = roanco._spec
-  const els = roanco._els
+// given a tree, populate a map of paths of nodes -> node
+function buildPaths (map, tree, currentPath) {
+  const thisPath = currentPath.concat(tree.name)
 
-  if (typeof spec !== 'object') throw new Error('expecting a spec argument')
+  map.set(thisPath.join('/'), tree)
+  if (tree.children == null) return
 
-  const rootEl = document.createElement('div')
-  els.set(null, rootEl)
-
-  return roanco
+  for (let child of tree.children) {
+    buildPaths(map, child, thisPath)
+  }
 }

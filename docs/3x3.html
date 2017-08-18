@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>roanco/test/manual/3x3</title>
+</head>
+
+<body id='body'>
+  <script src="roanco-standalone.js"></script>
+  <script>
+    const tree = roanco.create(`
+      col main -> aRow:1 bRow:1 cRow:1
+      row aRow -> aCol:1 bCol:1 cCol:1
+      row bRow -> aCol:1 bCol:1 cCol:1
+      row cRow -> aCol:1 bCol:1 cCol:1
+      col aCol -> xRow:1 yRow:1 zRow:1
+      col bCol -> xRow:1 yRow:1 zRow:1
+      col cCol ->xRow:1 yRow:1 zRow:1
+      row xRow -> x:1 y:1 z:1
+      row yRow -> x:1 y:1 z:1
+      row zRow -> x:1 y:1 z:1
+    `)
+
+    colors = {
+    }
+    for (let row of ['a', 'b', 'c']) {
+      for (let col of ['a', 'b', 'c']) {
+        for (let xrow of ['x', 'y', 'z']) {
+          for (let cell of ['x', 'y', 'z']) {
+            const path = `main/${row}Row/${col}Col/${xrow}Row/${cell}`
+            const short = `${row}-${col}-${xrow}-${cell}`
+            tree.el(path).innerHTML = `<tt class="content">${short}</tt>`
+          }
+        }
+      }
+    }
+
+    document.getElementById('body').appendChild(tree.el('main'))
+
+    console.log('flexMap:', tree.flexMap)
+    console.log('spec:', tree.spec)
+  </script>
+
+  <style>
+    .roanco-main {
+      height: 100%;
+      width: 100%;
+    }
+
+    .roanco-xRow .roanco-x { background-color: #FFE; }
+    .roanco-xRow .roanco-y { background-color: #FEF; }
+    .roanco-xRow .roanco-z { background-color: #EFF; }
+    .roanco-yRow .roanco-x { background-color: #FEE; }
+    .roanco-yRow .roanco-y { background-color: #EFE; }
+    .roanco-yRow .roanco-z { background-color: #EEF; }
+    .roanco-zRow .roanco-x { background-color: #EED; }
+    .roanco-zRow .roanco-y { background-color: #EDE; }
+    .roanco-zRow .roanco-z { background-color: #DEE; }
+
+    .roanco-divider-hor { height: 1px; }
+    .roanco-divider-ver { width:  1px; }
+    .roanco-divider     { background-color: #777; }
+
+    .roanco-sizer-hor:hover { cursor: ns-resize; }
+    .roanco-sizer-ver:hover { cursor: ew-resize; }
+
+    .roanco-sizer-hor   {
+      height: 8px;
+      margin: 0 3px 0 3px;
+    }
+
+    .roanco-sizer-ver   {
+      width:  8px;
+      margin: 3px 0 3px 0;
+    }
+
+    .roanco-sizer       {
+      background-color: #AAA;
+      border: thin solid black;
+      border-radius: 10px;
+    }
+
+    .content {
+      padding: 0.25em 1em;
+      text-align: center;
+    }
+
+    * {
+      box-sizing: border-box;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    html, body {
+      position: fixed;
+      height: 100%;
+      width:  100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</body>
+</html>

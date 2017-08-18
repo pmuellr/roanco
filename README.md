@@ -11,18 +11,31 @@ usage
 ```js
 const roanco = require('roanco')
 
-// set of rows: header/navs/body/footer, where:
+// this spec describes a set of rows: header/navs/body/footer, where:
 // * header and footer are sized to fit their content
 // * navs and body fill to fit the container, navs: 1/4, body: 3/4
 
 // the navs element is a set of columns nav1/nav2, where:
 // * both nav elements fill to fit the container, and are the same size
 const spec = {
-  rows: { header: -1, navs: 1, body: 3, footer: -1 }
-  navs:
-    { cols: { nav1: 1, nav2: 1 }
-  }
+  main: { type: 'rows', header: -1, navs: 1, body: 3, footer: -1 },
+  navs: { type: 'cols', nav1: 1, nav2: 1 }
 }
+
+const spec = {
+  main: { col: 'head navs:1 body:3 foot' },
+  navs: { row: 'nav1:1 nav2:1' }
+}
+
+const spec = {
+  main: 'col: head navs:1 body:3 foot',
+  navs: 'row: nav1:1 nav2:1'
+}
+
+const spec = roanco`
+  col: main - head navs:1 body:3 foot
+  row: navs - nav1:1 nav2:1
+`
 
 // create the elements
 const container = roanco.create(spec)
@@ -40,7 +53,7 @@ container.el('navs.nav2').innerHTML = 'nav 2'
 document.getElementById('container').appendChild(container.el())
 ```
 
-![result of running example code](test/fixtures/prototype/screen-cap.png)
+![result of running example code](test/fixtures/prototype/screen-cap.gif)
 
 install
 ================================================================================
